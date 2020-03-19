@@ -1,0 +1,282 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"re",
+				"replace"
+			],
+			[
+				"s",
+				"str1"
+			],
+			[
+				"r",
+				"reverse_name"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"pi",
+				"pic_bulboff"
+			],
+			[
+				"pic",
+				"pic_bulbon"
+			],
+			[
+				"tex",
+				"text-align\tproperty"
+			],
+			[
+				"wind",
+				"wind_speed"
+			],
+			[
+				"tem",
+				"temperature"
+			],
+			[
+				"weather",
+				"weather_status"
+			],
+			[
+				"weat",
+				"weather_status_label"
+			],
+			[
+				"w",
+				"weather_status_label"
+			],
+			[
+				"wa",
+				"weather_status"
+			],
+			[
+				"ci",
+				"city_listbox"
+			],
+			[
+				"city",
+				"city_name_list"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Erenay Karacan/Desktop/Coding/aLearnReact/Pipfile",
+		"/C/Users/Erenay Karacan/Desktop/Coding/aLearnReact/leadmanager/leadmanager/settings.py",
+		"/C/Users/Erenay Karacan/Desktop/style.css",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/static/style/portfolio1.css",
+		"/C/Users/Erenay Karacan/Desktop/Coding/aLearnReact/Pipfile.lock",
+		"/C/Users/Erenay Karacan/Desktop/faa67b76a6c47adbab04f739cba7ceda-9d0dd0ee941fea05fd1357502e5aa348abb84c12/like_button.js",
+		"/C/Users/Erenay Karacan/Desktop/faa67b76a6c47adbab04f739cba7ceda-9d0dd0ee941fea05fd1357502e5aa348abb84c12/index.html",
+		"/C/Users/Erenay Karacan/Desktop/Coding/BACKUP_HTML/signup.html",
+		"/C/Users/Erenay Karacan/Desktop/add_comment.js",
+		"/C/Users/Erenay Karacan/Desktop/Coding/BACKUP_HTML/signup_view.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/venv/Lib/site-packages/ckeditor/fields.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/manage.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/JS/script.js",
+		"/C/Users/Erenay Karacan/Desktop/radial-pie-circle-menu/menuRond.html",
+		"/C/Users/Erenay Karacan/Desktop/radial-pie-circle-menu/javaScript.js",
+		"/C/Users/Erenay Karacan/Desktop/radial-pie-circle-menu/style.css",
+		"/C/Users/Erenay Karacan/Desktop/index.html",
+		"/C/Users/Erenay Karacan/dev/try_django/BlogWorld/BlogWorld/views.py",
+		"/C/xampp/htdocs/BlogWorld/blogWorld/views.py",
+		"/C/Users/Erenay Karacan/dev/try_django/BlogWorld/BlogWorld/urls.py",
+		"/C/xampp/htdocs/BlogWorld/blogWorld/urls.py",
+		"/C/Users/Erenay Karacan/dev/try_django/BlogWorld/BlogWorld/settings.py",
+		"/C/xampp/htdocs/BlogWorld/blogWorld/settings.py",
+		"/C/xampp/htdocs/BlogWorld/blogWorld/__init__.py",
+		"/C/Users/Erenay Karacan/dev/try_django/src/blogsite/urls.py",
+		"/C/Users/Erenay Karacan/dev/try_django/src/blogsite/settings.py",
+		"/C/Users/Erenay Karacan/dev/try_django/src/blogsite/__init__.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/blogWorld/settings.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/venv/Lib/site-packages/django/forms/models.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/venv/Lib/site-packages/django/forms/forms.py",
+		"/C/xampp/htdocs/BlogWorld/manage.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/JS/JS.html",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/accounts/urls.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/accounts/views.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/templates/base.html",
+		"/C/Users/Erenay Karacan/Desktop/Coding/tkinter/hello.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/Personal Webpage/meetme/index.html",
+		"/C/Users/Erenay Karacan/Desktop/Coding/search/index.html",
+		"/C/Users/Erenay Karacan/Desktop/Coding/search/style.css",
+		"/C/Users/Erenay Karacan/Desktop/Coding/New Template/index.html",
+		"/C/Users/Erenay Karacan/Desktop/Coding/New Template/generic.html",
+		"/C/Users/Erenay Karacan/Desktop/New Template/index.html",
+		"/C/Users/Erenay Karacan/Desktop/New Template/assets/css/main.css",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/blog_posts/templates/user_page.html",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/blog_posts/views.py",
+		"/C/Users/Erenay Karacan/PycharmProjects/BlogWorld/venv/Lib/site-packages/django/contrib/auth/models.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/Personal Webpage/meetme/css/style.css",
+		"/C/Users/Erenay Karacan/Desktop/Coding/Personal Webpage/meetme/css/_instagram.css",
+		"/C/Users/Erenay Karacan/Desktop/Coding/Personal Webpage/meetme/css/_about.css",
+		"/C/Users/Erenay Karacan/OneDrive/Masaüstü/BlogWorld/venv/Lib/site-packages/django/contrib/auth/views.py",
+		"/C/Users/Erenay Karacan/OneDrive/Masaüstü/BlogWorld/venv/Lib/site-packages/django/contrib/auth/urls.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/html/external.css",
+		"/C/Users/Erenay Karacan/Desktop/Coding/html/index.htm",
+		"/C/Users/Erenay Karacan/Pictures/spatula.htm",
+		"/C/Users/Erenay Karacan/Desktop/Coding/weather/weather.py",
+		"/C/Users/Erenay Karacan/Desktop/Coding/weather/tkinter.py",
+		"/C/Users/Erenay Karacan/Desktop/Personal Webpage/meetme/index.html",
+		"/C/Users/Erenay Karacan/Desktop/Personal Webpage/meetme/css/_about.css"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "storage_backends.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Posts{% endblock %}
+{% block content %}
+
+{% if not too %}
+
+<div class="home_box" onmouseout="not_search()">
+    <div class="wall_box_inner">
+        {% for post in posts %}
+            <img class="mySlides img_wall w3-animate-right" src="{{post.thumb}}">
+        {% endfor %}
+    </div>
+
+    <div class="heading w3-tangerine"><h1 style="font-family: Quicksand,serif; font-size: 3vw">
+        <b>Explore our Posts</b></h1></div>
+</div>
+
+{% endif %}
+
+<div>
+    <div class="nav-scroller py-1 mb-2" style="padding-left: 1vw; padding-right: 1vw">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" href="/posts/cat/world/">World</a>
+            <a class="p-2 text-muted" href="/posts/cat/technology/">Technology</a>
+            <a class="p-2 text-muted" href="/posts/cat/design/">Design</a>
+            <a class="p-2 text-muted" href="/posts/cat/culture/">Culture</a>
+            <a class="p-2 text-muted" href="/posts/cat/business/">Business</a>
+            <a class="p-2 text-muted" href="/posts/cat/politics/">Politics</a>
+            <a class="p-2 text-muted" href="/posts/cat/opinion/">Opinion</a>
+            <a class="p-2 text-muted" href="/posts/cat/science/">Science</a>
+            <a class="p-2 text-muted" href="/posts/cat/health/">Health</a>
+            <a class="p-2 text-muted" href="/posts/cat/style/">Style</a>
+            <a class="p-2 text-muted" href="/posts/cat/travel/">Travel</a>
+        </nav>
+    </div>
+
+    {% if too %}
+
+
+    <div class="home_box" onmouseout="not_search()">
+        <div class="wall_box_inner">
+            {% for post in posts %}
+                <img class="mySlides cats_slide w3-animate-right" src="{{post.thumb}}">
+            {% endfor %}
+        </div>
+
+        <div class="heading w3-tangerine"><h1 style="font-family: Quicksand,serif; font-size: 3vw">
+            <b>{{cat}} Category</b></h1></div>
+    </div>
+
+
+    <br><br><br>
+    <div class="row mb-2">
+    {% for post in posts %}
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card_post">
+
+                <div class="col_card_post">
+                    <img class="pad_card_post" src="{{post.thumb}}" alt="thumb">
+                </div>
+
+                <div class="col_cont">
+                    <div class="white_pad">
+                        <strong class="d-inline-block mb-2 text-primary">{{post.category.category}}</strong>
+                        <br>
+                        <button class="button_link"><a href="/posts/post/{{post.slug}}/"
+                                                       style="text-decoration: none;"><h3 class="title_card"
+                                                                                          >{{post.title}}</h3></a></button>
+                        <div class="mb-1 text-muted">Nov 12</div>
+                        <button class="desc_post_card_hide-button" style="color: darkslategrey"
+                                onclick="see_desc_post_cat('{{post.id}}')">See Description<i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="w3-card-4 desc_post_card_cat">
+                <div class="desc_post_card_p">
+                    <p>{{post.desc|safe}}</p>
+                    <a class="desc_post_card_hide-button" style="color: cadetblue" href="/posts/post/{{post.slug}}/">Continue reading</a>
+                </div>
+                <div class="desc_post_card_hide">
+                    <button class="desc_post_card_hide-button" onclick="hide_post1('{{post.id}}')">Hide the description
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+    </div>
+
+    <script>
+            var descs1 = document.getElementsByClassName("desc_post_card_cat");
+            var imgs_cat = document.getElementsByClassName("cats_slide");
+            var i ;
+            var setSl1 = window.setInterval(slider1, 3000);
+
+            imgs_cat[0].style.display = "block";
+            for (i=1;i<imgs_cat.length;i++) {
+                imgs_cat[i].style.display = "none";
+            }
+
+
+
+            function slider1() {
+                for (i = 0; i < imgs_cat.length; i++) {
+                    if (window.getComputedStyle(imgs_cat[i]).getPropertyValue("display") === "block") {
+                    vcurrent = i;}
+                }
+                if (vcurrent===imgs_cat.length-1) {
+                    imgs_cat[vcurrent].style.display = "none";
+                    imgs_cat[0].style.display = "block";
+                } else {
+                    imgs_cat[vcurrent].style.display = "none";
+                    imgs_cat[vcurrent+1].style.display = "block";
+                }
+            }
+
+            function see_desc_post_cat(x) {
+                for (i=0;i<descs1.length;i++) {
+                    descs1[i].style.height = "0";
+                    descs1[i].style.display = "none";
+                }
+                var y = {{ numbs_cat|safe }} ;
+                var ord = y[x];
+
+                descs1[ord].style.display = "block";
+                if (window.innerWidth>1000) {
+                    descs1[ord].style.height = "10vw";
+                } else {
+                    descs1[ord].style.height = "24vw";
+                    descs1[ord].style.marginTop = "-4vw";
+                }
+            }
+            function hide_post1(x) {
+
+                var y = {{ numbs_cat|safe }};
+                var ord = y[x];
+
+                descs1[ord].style.height = "0";
+                descs1[ord].style.display = "none";
+            }
+    </script>
+
+    {% endif %}
+
+
+
+    {% if uss %}
+    <h3 class="cat_head">Posts of {{user}}</h3>
+    {% endif %}
+
+
+
+
+    <div class="row mb-2">
+        {% for post in posts1 %}
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card_post">
+
+                <div class="col_card_post">
+                    <img class="pad_card_post" src="{{post.thumb}}" alt="thumb">
+                </div>
+
+                <div class="col_cont">
+                    <div class="white_pad">
+                        <strong class="d-inline-block mb-2 text-primary">{{post.category.category}}</strong>
+                        <br>
+                        <button class="button_link"><a href="/posts/post/{{post.slug}}/"
+                                                       style="text-decoration: none;"><h3 class="title_card"
+                                                                                          id="link-post">{{post.title}}</h3></a></button>
+                        <div class="mb-1 text-muted">Nov 12</div>
+                        <button class="desc_post_card_hide-button" style="color: darkslategrey"
+                                onclick="see_desc_post('{{post.id}}')">See Description<i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-card-4 desc_post_card">
+                <div class="desc_post_card_p">
+                    <p>{{post.desc|linebreaks}}</p>
+                    <a class="desc_post_card_hide-button" style="color: cadetblue" href="/posts/post/{{post.slug}}/">Continue reading</a>
+                </div>
+                <div class="desc_post_card_hide">
+                    <button class="desc_post_card_hide-button" onclick="hide_post('{{post.id}}')">Hide the description</button>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+
+    {% if boo %}
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" style="background-image: linear-gradient(260deg, rgba(248, 232, 250, 1), rgba(26, 68, 135, 1))">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">{{rand.title}}</h1>
+            <p class="lead my-3">{{rand.desc|safe}}...</p>
+            <p class="lead mb-0"><a href="/posts/post/{{rand.slug}}/" class="text-white font-weight-bold">Continue reading...</a></p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mb-2">
+
+        {% for post in posts2 %}
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative card_post">
+
+                <div class="col_card_post">
+                    <img class="pad_card_post" src="{{post.thumb}}" alt="thumb">
+                </div>
+
+                <div class="col_cont">
+                    <div class="white_pad">
+                        <strong class="d-inline-block mb-2 text-primary">{{post.category.category}}</strong>
+                        <br>
+                        <button class="button_link"><a href="/posts/post/{{post.slug}}/"
+                                                       style="text-decoration: none;"><h3 class="title_card"
+                                                                                          >{{post.title}}</h3></a></button>
+                        <div class="mb-1 text-muted">Nov 12</div>
+                        <button class="desc_post_card_hide-button" style="color: darkslategrey"
+                                onclick="see_desc_post('{{post.id}}')">See Description<i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-card-4 desc_post_card">
+                <div class="desc_post_card_p">
+                    <p>{{post.desc | linebreaks}}</p>
+                    <a class="desc_post_card_hide-button" style="color: cadetblue" href="/posts/post/{{post.slug}}/">Continue reading</a>
+                </div>
+                <div class="desc_post_card_hide">
+                    <button class="desc_post_card_hide-button" onclick="hide_post('{{post.id}}')">Hide the description</button>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<script>
+    window.onscroll = function () {
+        scroll_page()
+    };
+
+    function scroll_page() {
+
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("myBar").style.width = scrolled + "%";
+
+
+        if ( window.innerWidth > 1000) {
+            document.getElementById("nav_div").style.position = "fixed";
+            document.getElementById("nav_div").style.width = "74vw";
+
+
+            if (window.scrollY === 0) {
+                document.getElementById("nav_div").style.position = "relative";
+            }
+        } else {
+            document.getElementById("nav_div").style.position = "fixed";
+            document.getElementById("nav_div").style.width = "100%";
+        }
+    }
+
+
+
+
+    var i;
+    var setSl = setInterval(slider, 3000);
+    var imgs = document.getElementsByClassName("img_wall");
+    var descs = document.getElementsByClassName("desc_post_card");
+    var hides = document.getElementsByClassName("desc_post_card_hide");
+    var descs1 = document.getElementsByClassName("desc_post_card_cat");
+
+
+    imgs[0].style.display = "block";
+    for (i=1;i<imgs.length;i++) {
+        imgs[i].style.display = "none";
+    }
+    var len1 = {{posts1_len}} ;
+    var len2 = {{posts2_len}} ;
+
+    hides[parseInt(len1,10)].style.height = "7vw";
+    hides[parseInt(len1,10)-1].style.height = "7vw";
+
+    if (parseInt(len2,10)%2===1) {
+        hides[parseInt(len1,10) + parseInt(len2,10)+1].style.height = "7vw";
+        hides[parseInt(len1,10) + parseInt(len2,10)].style.height = "7vw";
+    } else {
+        hides[parseInt(len1,10) + parseInt(len2,10)+1].style.height = "7vw";
+    }
+
+    function slider() {
+        for (i = 0; i < imgs.length; i++) {
+            if (window.getComputedStyle(imgs[i]).getPropertyValue("display") === "block") {
+                vcurrent = i;
+            }
+        }
+        if (vcurrent===imgs.length-1) {
+            imgs[vcurrent].style.display = "none";
+            imgs[0].style.display = "block";
+        } else {
+            imgs[vcurrent].style.display = "none";
+            imgs[vcurrent+1].style.display = "block";
+        }
+    }
+
+    function see_desc_post(x) {
+        for (i=0;i<descs.length;i++) {
+            descs[i].style.height = "0";
+            descs[i].style.display = "none";
+        }
+
+        var y = {{ numbs|safe }};
+        var ord = y[x];
+
+        descs[ord].style.display = "block";
+        if (window.innerWidth>1000) {
+            descs[ord].style.height = "16vw";
+        } else {
+            descs[ord].style.height = "28vw";
+            descs[ord].style.marginTop = "-9vw";
+        }
+    }
+
+    function hide_post(x) {
+        var y = {{ numbs|safe }};
+        var ord = y[x];
+
+        descs[ord].style.height = "0";
+        descs[ord].style.display = "none";
+    }
+
+
+</script>
+
+{% endblock %}
+

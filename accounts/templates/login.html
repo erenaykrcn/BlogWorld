@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<div class="waveWrapper1 waveAnimation">
+          <div class="waveWrapperInner bgTop" >
+                  <div class="login_main">
+                    <div class="home_div"><button class="home_but" onclick="go_home()">Home</button>
+                    <button class="home_but" onclick="go_posts()">Posts</button></div>
+                    <div class="login_h">Login</div>
+                    <div style="text-align: center; padding-top: 20px; padding-bottom: 40px">
+
+                        <div class="_d">Username: <input type="text" class="_input" id="username_login"></div>
+                        <div class="_d">Password: <input type="password" class="_input" id="password_login"></div>
+                            <p style="text-align: center"><button type="submit" style="color: #f2f2f2;
+                               width:7vw; height: 3vw; border-radius: 2vw; border: 2px solid #f2f2f2; background: transparent;
+                               font-family: Quicksand; font-size: 1.3vw;" onclick="login()">Login</button></p>
+
+                    </div>
+
+                    <div class="no_ac">
+                        <p style="text-align: center; color: #f2f2f2">You don't have an account?     <a href="/accounts/signup/"
+                                                                                                       style="color: #f2f2f2">Sign Up</a></p>
+                        <p style="text-align: center; color: whitesmoke">You've forgotton your password?     <a href="/accounts/password_reset/" style="color: #f2f2f2">Reset Password</a></p>
+                    </div>
+                  </div>
+          </div>
+          <div class="waveWrapperInner bgMiddle">
+            <div class="wave waveMiddle" style="background-image: url({% static 'home_img/wave-mid.png' %})"></div>
+          </div>
+          <div class="waveWrapperInner bgBottom">
+
+            <div class="wave waveBottom" style="background-image: url({% static 'home_img/wave-bot.png' %})"></div>
+          </div>
+</div>
+
+
+
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+
+    function go_home() {
+        window.location = "/"
+    }
+
+    function go_posts() {
+        window.location = "/posts/"
+    }
+    
+    function login() {
+        var username = document.getElementById("username_login").value;
+        var password = document.getElementById("password_login").value;
+
+
+        var xhttp = new XMLHttpRequest();
+
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                if (this.responseText==="success") {
+                    window.location = "/accounts/profile/";
+                } else {
+                    return alert("Please check your data")
+                }
+            }
+        };
+        var params = "username=" + username + "&password=" + password;
+
+        xhttp.open('POST', "/login_a/", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(params);
+
+
+    }
+
+</script>
+
+
+
+{% endblock %}

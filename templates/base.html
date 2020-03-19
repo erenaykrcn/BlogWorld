@@ -1,0 +1,168 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>BlogWorld/{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="{% static 'script/script.js' %}"></script>
+    <script src="https://kit.fontawesome.com/2bfe0272e2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=brick-sign">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Odibee+Sans|Quicksand|Tangerine&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Cinzel|Odibee+Sans&display=swap" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="main_div">
+    <div class="m_left"></div>
+    <div class="container3" id="container3" style="height: 100%">
+        {% if ord_nav %}
+        <div class="container1" id="nav_div" >
+                    <nav class="navbar navbar-expand-lg navbar-custom">
+                        <a class="navbar-brand nav-link-exp1" href="/">BlogWorld</a>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left: 2%;">
+                            <ul class="navbar-nav mr-auto" style="width: 70%">
+                                {% if not user.is_authenticated %}
+                                <li class="nav-item active" style="width: 20%">
+                                    <a class="nav-link nav-link-exp" href="/accounts/login" style="color: rgba(56, 1, 69, 1)">Login<span class="sr-only">(current)</span></a>
+                                </li>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                <li class="nav-item dropdown nav-link-exp" style="width: 23%" id="account_nav">
+                                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle nav-link-exp" data-toggle="dropdown"
+                                       href="#"  role="button" style="color: rgba(56, 1, 69, 1)" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+                                        Account
+                                    </a>
+                                </li>
+                                {% endif %}
+                                <li class="nav-item active nav-link-exp" style="padding-left: .5vw;" id="home_nav">
+                                    <a class="nav-link nav-link-exp" href="/" style="color: rgba(56, 1, 69, 1);
+                                        "><b>Home</b><span class="sr-only">(current)</span></a>
+                                </li>
+                                <!--<li class="nav-item nav-link-exp" style="padding-left: .5vw;" id="about_nav">
+                                    <a class="nav-link nav-link-exp" href="http://192.168.0.19:8000/about/" style="color: rgba(56, 1, 69, 1)">About</a>
+                                </li>-->
+                                <li class="nav-item dropdown nav-link-exp" id="posts_nav">
+                                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle nav-link-exp" data-toggle="dropdown"
+                                       href="#" id="navbarDropdownMenuLink" role="button" style="color: rgba(56, 1, 69, 1)" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+                                        Posts
+                                    </a>
+                                </li>
+                                <li class="nav-item nav-link-exp" id="contact_nav">
+                                    <a class="nav-link nav-link-exp" href="/about/" style="color: rgba(56, 1, 69, 1)">About</a>
+                                </li>
+                            </ul>
+                            <div style="display: inline-block; width: 100%">
+                                <form method="post" action="/searchit/"> {% csrf_token %}
+                                    <div class="search-div">
+                                        <input type="text" class="search-input" name="elem">
+                                        <button class="search-button" onmouseover = "search()"><i class="fas fa-search icon-ext"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+
+            <p class="mobile_blogworld">BlogWorld</p>
+            <button class="openbtn" onclick="openNav()">☰</button>
+            <div id="mySidebar" class="sidebar">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+               {% if user.is_authenticated %}
+              <a href="#" onclick="show_sub0()">Account <i class="fas fa-chevron-down"></i></a>
+                <div class="acc_col" id="acc_col0">
+                    <a href="/accounts/profile/">See Profile</a>
+                    <a href="/accounts/logout/">Log Out</a>
+                </div>
+              {%  else %}
+               <a href="/accounts/login/">Login</a>
+              {% endif %}
+
+              <a href="/">Home</a>
+              <a href="/about/">About</a>
+              <a href="#" onclick="show_sub1()">Posts <i class="fas fa-chevron-down"></i></a>
+                <div class="acc_col" id="acc_col1">
+                    <a href="/posts/">See Blogs</a>
+                    <a href="/posts/create/">Post Blogs</a>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
+
+            <div class="dropdown_myNav_wrapper" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+                <div class="dropdown_myNav">
+                    <div class="account_dd">
+                        {% if user.is_authenticated %}
+                        <div class="see_profile" ><button onclick="account_p()" style="background: transparent; border: none">See Profile</button></div>
+                        <div class="logout"><button onclick="logout_a()" style="background: transparent; border: none">Logout</button></div>
+                        {% endif %}
+                    </div>
+
+                    <div class="post_dd">
+                        <div class="post1">
+                            <div class="see_blogs"><button onclick="seeblogs_p()" style="background: transparent; border: none">See Blogs</button></div>
+                            <div class="post_blogs"><button onclick="postblogs_p()" style="background: transparent; border: none">Post Blogs</button></div>
+                        </div>
+                        <div class="post2">
+                            <div class="dd_cat">Categories</div>
+                            <div class="cats_main">
+                                <div class="colm1">
+                                    <a href="/posts/cat/world/" class="cats_link">World</a>
+                                    <a href="/posts/cat/technology/" class="cats_link">Technology</a>
+                                </div>
+                                <div class="colm1">
+                                    <a href="/posts/cat/design/" class="cats_link">Design</a>
+                                    <a href="/posts/cat/culture/" class="cats_link">Culture</a>
+                                </div>
+                                <div class="colm1">
+                                    <a href="/posts/cat/business/" class="cats_link">Business</a><br>
+                                    <a href="/posts/cat/politics/" class="cats_link">Politics</a>
+                                </div>
+                                <div class="colm1">
+                                    <a href="/posts/cat/science/" class="cats_link">Science</a>
+                                    <a href="/posts/cat/opinion/" class="cats_link">Opinion</a>
+                                </div>
+                                <div class="colm1">
+                                    <a href="/posts/cat/health/" class="cats_link">Health</a>
+                                    <a href="/posts/cat/travel/" class="cats_link">Travel</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="m_right"></div>
+</div>
+
+
+</body>
+
+</html>

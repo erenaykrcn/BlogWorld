@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 40px 10px 40px">
+    <h1 style="color:green; font-size:30px; text-align: center">Reset Password</h1>
+    <br><br>
+    {% if boo %}
+        <p style="text-align: center; color:green;">Your password has been changed successfully</p>
+    {% endif %}
+    {% if not pass %}
+        <p style="text-align: center; color:red;">Given Passwords do not match!</p>
+    {% endif %}
+    {% if not oldpa %}
+        <p style="text-align: center; color:red;">Old Password is incorrect</p>
+    {% endif %}
+    <form action="/accounts/changepass/" method="POST"> {% csrf_token %}
+        <p style="text-align: center"><input type="password" placeholder="Enter your old password" name="old_password" required></p>
+        <p style="text-align: center"><input type="password" placeholder="Enter your new password" name="password" required></p>
+        <p style="text-align: center"><input name="re_password" placeholder="Enter the password again" style="align: center" type="password" required><br><br></p>
+        <p style="text-align: center"><button type="submit">Submit</button></p>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block title %}PostBlog{% endblock %}
+{% load static %}
+{% block content %}
+
+    <div class="thumb_create" style="background-image: url({% static 'home_img/default_thumb.jpg' %});">
+        <div class="uplo_thumb">
+            <p style="font-size: 2vw; font-family: Quicksand; display: inline-block; color:white">Upload Thumbnail</p>
+
+                <i class="fas fa-camera" id="cam"></i>
+                <input class="file-upload" type="file" accept="image/*" id="up" name="profi">
+
+        </div>
+        <div class="white-pad_th">
+            <input name="title" placeholder="Enter the Title" class="title_create" type="text" id="title" >
+        </div>
+    </div>
+
+    {% if boo %}
+        <p style="text-align: center; color: green">Your blog request has been sent. Thank You!</p>
+    {% endif %}
+
+
+
+    {% if too %}
+        <p style="color: red">There already exists a Post with this title!</p>
+    {% endif %}
+
+
+    <textarea name="content1" placeholder="Type the content here"  id="content1" class="ta-cont"></textarea>
+
+    <div class="tags_main">
+
+        <div class="cats_select" onmouseover="show_back()">
+            <div class="headi">
+                <p class="heading_cats">Pick one of our Categories</p>
+            </div>
+
+            <div class="options">
+                <div class="row_"><button class="but_select_div" onclick="select_cat('World', 'world_i', 0)" ><i class="far fa-circle icon-ext-cat" id="world_i"></i><p class="options-p">World</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Technology', 'tech_i', 1)" ><i class="far fa-circle icon-ext-cat" id="tech_i"></i><p class="options-p">Technology</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Design', 'design_i', 2)"><i class="far fa-circle icon-ext-cat" id="design_i"></i><p class="options-p">Design</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Culture', 'cult_i', 3)" ><i class="far fa-circle icon-ext-cat" id="cult_i"></i><p class="options-p">Culture</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Business', 'bus_i', 4)" ><i class="far fa-circle icon-ext-cat" id="bus_i"></i><p class="options-p">Business</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Politics', 'pol_i', 5)"><i class="far fa-circle icon-ext-cat" id="pol_i"></i><p class="options-p">Politics</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Opinion', 'op_i', 6)" ><i class="far fa-circle icon-ext-cat" id="op_i"></i><p class="options-p">Opinion</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Science', 'sc_i', 7)" ><i class="far fa-circle icon-ext-cat" id="sc_i"></i><p class="options-p">Science</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Health', 'health_i', 8)"><i class="far fa-circle icon-ext-cat" id="health_i"></i><p class="options-p">Health</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Style', 'style_i', 9)" ><i class="far fa-circle icon-ext-cat" id="style_i"></i><p class="options-p">Style</p></button></div>
+                <div class="row_"><button class="but_select_div" onclick="select_cat('Travel', 'tr_i', 10)" ><i class="far fa-circle icon-ext-cat" id="tr_i"></i><p class="options-p">Travel</p></button></div>
+            </div>
+
+
+            <input type="text" hidden id="category" name="category">
+                <!--<option value="World">World</option>
+                <option value="Technology">Technology</option>
+                <option value="Design">Design</option>
+                <option value="Culture">Culture</option>
+                <option value="Business">Business</option>
+                <option value="Politics">Politics</option>
+                <option value="Opinion">Opinion</option>
+                <option value="Science">Science</option>
+                <option value="Health">Health</option>
+                <option value="Style">Style</option>
+                <option value="Travel">Travel</option>-->
+
+        </div>
+        <div class="desc_create">
+            <div class="desc_title">Enter a Description to your Post</div>
+            <textarea cols="50" name="desc" placeholder="Type the description here" rows="5" maxlength="200" class="ta_desc" id="desc1"></textarea>
+            <button type="button" onclick="send_post()" class="send_post"><p class="send_post_p">Send</p></button>
+        </div>
+    </div>
+
+
+
+
+<!--<script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>-->
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+    CKEDITOR.replace('content1', {
+        height: 700
+    });
+
+    var user_info = {{user_info|safe}};
+
+    function show_back() {
+        document.getElementsByClassName("cats_select")[0].style.height = "94vw";
+        for (i=0;i<document.getElementsByClassName("row_").length;i++) {
+            document.getElementsByClassName("row_")[i].style.width = "100%";
+        }
+    }
+    var selected_id, selected_ord;
+    var selected = false;
+    var thumb;
+
+    function mobilecheck() {
+      var check = false;
+      (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+      return check;
+}
+
+
+    window.onscroll = function () {
+        scroll_page()
+    };
+
+    function scroll_page() {
+
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("myBar").style.width = scrolled + "%";
+
+        if (!mobilecheck() && parseInt(window.innerWidth, 10)>1000) {
+
+                document.getElementById("nav_div").style.position = "fixed";
+                document.getElementById("nav_div").style.width = "74vw";
+
+                if (window.scrollY == 0) {
+                    document.getElementById("nav_div").style.position = "relative";
+                }
+            } else if (!mobilecheck()) {
+                document.getElementById("nav_div").style.position = "fixed";
+                document.getElementById("nav_div").style.width = "100%";
+            }
+    }
+
+
+    function select_cat(value, id, ord) {
+        if (!selected) {
+            document.getElementById(id).className = "fas fa-circle icon-ext-cat";
+            document.getElementsByClassName("but_select_div")[ord].style.color = "rgba(192, 250, 203, 1)";
+            selected_id = id;
+            selected_ord = ord;
+            selected = true;
+            document.getElementById("category").value = value;
+        } else {
+            if (selected_ord === ord) {
+                selected = false;
+                document.getElementById(id).className = "far fa-circle icon-ext-cat";
+                document.getElementsByClassName("but_select_div")[ord].style.color = "white";
+                document.getElementById("category").value = "";
+            } else {
+                document.getElementById(id).className = "fas fa-circle icon-ext-cat";
+                document.getElementsByClassName("but_select_div")[ord].style.color = "rgba(192, 250, 203, 1)";
+                document.getElementById(selected_id).className = "far fa-circle icon-ext-cat";
+                document.getElementsByClassName("but_select_div")[selected_ord].style.color = "white";
+                selected_id = id;
+                selected_ord = ord;
+                selected = true;
+                document.getElementById("category").value = value;
+            }
+        }
+    }
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    $("#cam").click(function () {
+        $("input[id='up']").trigger('click');
+    });
+
+
+    document.getElementById("up").onchange = function () {
+        var data = new FormData();
+        data.append('file', document.getElementById("up").files[0]);
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                thumb = this.responseText;
+                document.getElementsByClassName("thumb_create")[0].style.backgroundImage = "url('" + this.responseText + "')";
+
+            }
+        };
+
+        xhttp.open('POST', "/upload_thumb/", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(data);
+
+
+    };
+
+    function send_post() {
+        var data = CKEDITOR.instances.content1.getData();
+        var title = document.getElementById("title").value;
+        var desc = document.getElementById("desc1").value;
+        var cat = document.getElementById("category").value;
+        var post_thumb, redirect_slug;
+        var user_id = user_info["user_id"];
+
+        if(typeof thumb === "undefined") {
+            post_thumb = "https://blogworld-storage.s3.amazonaws.com/static/default_thumb.jpg" ;
+        } else {
+            post_thumb = thumb;
+        }
+
+        var data1 = new FormData();
+        data1.append('title', title);
+        data1.append('content', data);
+        data1.append('desc', desc);
+        data1.append('cat', cat);
+        data1.append('thumb', post_thumb);
+        data1.append('user_id', user_id);
+
+
+
+        if (data !== "" && title !== "" && desc !== "" && cat !== "") {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    redirect_slug = this.responseText;
+                    window.location = "/posts/post/" + redirect_slug + "/";
+                }
+            };
+            /*var params = "content=" + data + "&title=" + title + "&desc=" + desc + "&cat=" + cat + "&thumb=" + post_thumb
+                + "&user_id=" + user_id;*/
+            xhttp.open('POST', "/posts/create_post/", true);
+            /*xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");*/
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.send(data1);
+
+        } else {
+            alert("Please complete all required fields")
+        }
+    }
+
+
+</script>
+{% endblock %}

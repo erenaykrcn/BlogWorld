@@ -1,0 +1,8 @@
+CACHE MANIFEST
+/{{user.prof}}
+/{{user.wall}}
+
+NETWORK:
+/static/style.css
+
+/static/home_img/glocal.jpg

@@ -1,0 +1,177 @@
+<!doctype html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <title>Erenay's Portfolio</title>
+    <script src="https://kit.fontawesome.com/2bfe0272e2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=brick-sign">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Odibee+Sans|Quicksand|Tangerine&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Cinzel|Odibee+Sans&display=swap" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'script/portfolio.js' %}"></script>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'style/portfolio1.css' %}">
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+</head>
+
+<body>
+
+    <div id='stars'></div>
+    <div id='stars2'></div>
+    <div id='stars3'></div>
+    <div id='title'>
+        <div id="root">
+            <div class="slider_port" id="s0">
+
+                <div class="perfe_port">Erenay Karacan: A perfectionist with deadlines</div>
+                <div class="fsdd_port">Full Stack Django & React Developer</div>
+                <div class="sd_port">Scroll down to take a look at my portfolio</div>
+                <div class="down_but"><button onclick="down('s0')" class="but-port1"><i class="fas fa-angle-down ang_ext"></i></button></div>
+
+            </div>
+
+            <div class="slider_port" id="s1">
+                <div class="up_but"><button onclick="up('s0')" class="but-port1" style="margin-top: 0"><i class="fas fa-angle-up ang_ext"></i></button></div>
+                <div class="desc_head">Who am I?</div>
+                <div class="desc_port">I am an Electrical and Computer Engineering student at the Technical University of Munich.
+                    I started my coding experience with robotic programming in Python language three years ago. Not long after, I started
+                    to learn the Web Development.
+                </div>
+                <div class="img_cont">
+                    <img src="{% static 'home_img/profile.jpg' %}" alt="" class="port_pad_prof">
+                </div>
+
+                <div class="pr_we">
+                    <div class="prwe_inner1" style="margin-left: 5vw">
+                        <img src="{% static 'home_img/html.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/haml.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/css.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/sass.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/js.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/react.png' %}" alt="" class="pad_inner">
+                    </div>
+                    <div class="prwe_inner2">
+                        <div class="prwe_head">What Frontend skills do I have?</div>
+                        <div class="prwe_cont">Needless to say but HTML, CSS and JavaScript come without question. Although I started my career
+                            as a Backend Developer, I got also pretty sharpened with many Frontend Technologies and
+                            I learned these three and also <b style="color:cadetblue">React, ES6, JSX, SASS, Haml, </b>,  in a deep scale.
+                            I am also quite familiar with <b style="color:cadetblue">AJAX, Bootstrap and jQuery</b>.</div>
+                    </div>
+                </div>
+                <div class="down_but"><button onclick="down('s0')" class="but-port1"><i class="fas fa-angle-down ang_ext"></i></button></div>
+
+            </div>
+
+            <div class="slider_port" id="s2">
+                <div class="up_but"><button onclick="up('s0')" class="but-port1" style="margin-top: -25vw;"><i class="fas fa-angle-up ang_ext"></i></button></div>
+
+                <div class="backend">
+                    <div class="backend_head">My Backend Skills</div>
+                    <div class="backend_cont">My Web Development adventure started with Web Framework Django, a powerful backend framework
+                        written in Python. I am able to code dynamic, responsive and interactive web apps with the help of my skills in Django, data
+                        transfer applications from database to Frontend JS and React framework. I am also quite familiar with authentification models,
+                        online payment apps etc.</div>
+
+
+
+                </div>
+                <div class="backend_logos">
+                    <img src="{% static 'home_img/python.png' %}" alt="" class="pad_inner">
+                    <img src="{% static 'home_img/django.png' %}" alt="" class="pad_inner" style="float: right">
+
+                </div>
+
+
+                <div class="db">
+                    <div class="db_logos w3-animate-bottom">
+                        <img src="{% static 'home_img/mysql.png' %}" alt="" class="pad_inner">
+                        <img src="{% static 'home_img/postgresql.png' %}" alt="" class="pad_inner" style="float: right">
+
+                    </div>
+
+                    <div class="db12 w3-animate-bottom">
+                        <div class="db_head">What about Databases?</div>
+                        <div class="db_cont">
+                            At the end, it is all about the database connection that makes Backend Engineering powerful. Therefore, my scope does not
+                            lack the SQL, and also knowledge of two of most powerful, popular and useful relational database management systems:
+                            MySQL, PostGreSQL and SQLite3
+                        </div>
+                    </div>
+
+                <div class="down_but"><button onclick="down('s0')" class="but-port1"><i class="fas fa-angle-down ang_ext"></i></button></div>
+
+                </div>
+
+            </div>
+
+            <div class="slider_port" id="s3">
+                <div class="up_but"><button onclick="up('s0')" class="but-port1"><i class="fas fa-angle-up ang_ext"></i></button></div>
+
+                <div class="bx1">
+                    <div class="intro">Now, allow me introduce you to BlogWorld</div>
+                    <img src="{% static 'home_img/blogworld.png' %}" alt="blogworld" class="pad_inner ext"><br>
+
+                    <div class="bw_desc">BlogWorld is a fully responsive, highly interactive, multitasking capable Django project with
+                        a sophisticated authentification system, rich text fields, React powered asynchronous comment and reply posting app
+                        that I created and that works with PostGreSQL. </div>
+                </div>
+                        
+                    
+                <div class="bx2">
+                    <div class="intro">...and to  the MUNlib</div>
+                    <img src="{% static 'home_img/worldd.png' %}" alt="blogworld" class="pad_inner ext1"><br>
+
+                    <div class="bw_desc">MUNlib was my first professional project that I created for the service of MUN Turkey. It is  the library of Turkey's Model UN documents, which is highly responsive and interactive. Its Frontend is built using entirely React and backend is powered by Django. For the sake of this project I also developed many skills related to SVG and Canvas</div>
+                </div>
+
+
+                <div class="down_but" style="margin-top: 88vh"><button onclick="down('s0')" class="but-port1"><i class="fas fa-angle-down ang_ext"></i></button></div>
+
+            </div>
+
+            <div class="slider_port" id="s4">
+                <div class="up_but"><button onclick="up('s0')" class="but-port1" style="margin-top: -2vw;"><i class="fas fa-angle-up ang_ext"></i></button></div>
+
+                <div class="last_head">Before directing you to BlogWorld and MUNlib, allow me to give you my contact details</div>
+
+                <div class="contect">
+                    <i class="fab fa-instagram"></i><a href="http://instagram.com/yellowshadow_/">/yellowshadow_</a>
+                    <i class="fas fa-envelope-open-text"></i>/erenay.karacan@tum.de
+                    <i class="fas fa-phone"></i>/+90 542 713 2697
+                </div>
+
+                <div style="width:100%; padding: 2vw; font-size: 1.5vw; font-family: Quicksand">Also, feel free to examine my source code for my projects on GitHub:</div>
+                <a href="https://github.com/erenaykrcn/BlogWorld" style="font-family: Quicksand; font-size: 1.4vw"><i class="fab fa-github"></i>github.com/erenaykrcn</a>
+
+                <div style="font-size: 1.5vw; font-family: Quicksand; width: 100%; height: 15vh; text-align: center; padding-top: 5vh">
+                    Now, please let me invite you to BlogWorld and MUNlib, to discover their beauties:
+                </div>
+                <a href="/" style="font-size: 1.8vw">blogworld.com</a>
+                <a href="https://munlib.herokuapp.com/" style="font-size: 1.8vw" >munlib.com</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

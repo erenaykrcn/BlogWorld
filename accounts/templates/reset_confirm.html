@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Enter new password{% endblock %}
+
+{% block content %}
+
+{% if validlink %}
+<br>
+<h1 style="text-align: center">Set a new password!</h1><br>
+<form method="POST" action="/accounts/reset-complete/"> {% csrf_token %}
+    <p style="text-align: center"><label>Enter a new password:</label><input type="password" name="password" required></p>
+    <p style="text-align: center"><label>Enter the new password again:</label><input type="password" name="re_password" required></p>
+    {% if iden %}
+        <p style="text-align: center; color: red">Passwords are not the same!</p>
+    {% endif %}
+    <p style="text-align: center"><input type="submit" value="Change my password"></p>
+</form>
+
+{% endif %}
+
+{% if not validlink %}
+
+<p>"The password reset link was invalid, possibly because it has already been used.  Please request a new password reset."</p>
+
+{% endif %}
+
+
+{% endblock %}

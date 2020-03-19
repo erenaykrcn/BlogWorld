@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="hidden_nav">
+    <p class="hidden_nav_title">{{object.title}}</p>
+</div>
+
+
+<div class="post_details_home_box">
+    <img src="{{object.thumb}}" alt="s" class="post_details_pad">
+    <div class="post_details_white_pad"><h1
+                                            id="post_details_heading">
+        <b>{{object.title}}</b></h1></div>
+</div>
+
+
+
+<div class="author">
+    by <a href="">{{object.user.username}}</a>
+    <img src="{{object.user.member.prof}}" alt="prof" class="author_pad">
+</div>
+
+
+
+<div class="post_details_content">
+    <p class="post_details_content_p">{{object.content|safe}}</p>
+</div>
+
+<div class="c-heading-box">
+    <h2 class="c-heading-h2">COMMENTS</h2>
+</div>
+
+{% if more %}
+    <button class="load-more" onclick="load_more()">Load More ^</button>
+{% endif %}
+
+
+{% if no_comments %}
+    <p style="font-size: 1.2vw; text-align: center; font-family: Quicksand; margin-top: 5vw; margin-bottom: 5vw" id="no_c">No Comments yet</p>
+{% endif %}
+
+<div id="loop_div">
+{% for comment in comments %}
+<div class="c-main w3-animate-left">
+    <div class="c-card">
+        <div class="c-card-in">
+            <div class="c-date">Feb-27 2020</div>
+            <div class="c-cont">{{comment.content|linebreaks}}</div>
+            <button class="see-replies-font" onclick="see_replies('{{comment.id}}')">See Replies</button>
+            <div class="c-menu">
+                <button class="c-like" onclick="f()"><i class="far fa-thumbs-up thumbsup-ext" style="color: white; font-size: 2vw"></i></button>
+                <button class="c-reply" onclick="see_replies('{{comment.id}}')"><i class="fa fa-reply reply-ex" aria-hidden="true"
+                                           style="color: white;"></i></button>
+            </div>
+
+
+            <div class="reply-div w3-animate-top">
+                {% for reply in replies %}
+                <div class="reply-mes">
+                    <div class="reply-cont">{{reply.content|linebreaks}}</div>
+                    <img class="reply-pad" src="{{reply.user.member.prof}}">
+                </div>
+                {% endfor %}
+                <div class="send-r-auth">
+                    <p class="send-r-auth-p">You have to login for able to add replies</p>
+                    <a href="/accounts/login/" class="send-r-auth-a">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c-prof">
+        <img src="{{comment.user.member.prof}}" alt="" class="c-pad">
+        <div class="c-username"><b>{{comment.user.username}}</b></div>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+<hr style="color: #111111;">
+
+
+
+<div class="send-c-auth">
+    <p class="send-c-auth-p">You have to login for able to add comments</p>
+    <a href="/accounts/login/" class="send-c-auth-a">Login</a>
+</div>
+
+
+
+<script src="{% static 'script/post_details.js' %}"></script>
+
+<script>
+var s_id = 0;
+var c_main = document.getElementsByClassName("c-main");
+var ids_dict = {{ids|safe}} ;
+var main_reply_dict = {{ main_reply_dict1|safe }} ;
+var numb_of_replies, o;
+numb_of_replies = Object.keys(main_reply_dict).length;
+var values = [];
+var noc = document.getElementById("no_c");
+var load_it = 1;
+
+
+
+
+
+if (c_main.length > 4){
+    for (i=0;i<c_main.length-4;i++) {
+        c_main[i].style.display = "none";
+    }
+}
+
+function load_more() {
+    var up_limit = c_main.length - load_it*4;
+    var down_limit = up_limit-4;
+    if (down_limit<0) {
+        down_limit = 0;
+        document.getElementsByClassName("load-more")[0].style.display = "none";
+    }
+
+    for (i=down_limit; i<up_limit; i++) {
+        c_main[i].style.display = "block";
+    }
+
+    load_it += 1;
+}
+
+
+for (i=0;i<numb_of_replies;i++) {
+    values.push(main_reply_dict[i]);
+}
+
+for (i=0;i<c_main.length;i++) {
+    if (values.indexOf(i)===-1) {
+        document.getElementsByClassName("see-replies-font")[i].style.display = "none";
+    }
+}
+
+for (o=0;o<c_main.length;o++) {
+    for (i=0;i<numb_of_replies;i++) {
+        if (main_reply_dict[i] !== o)
+            document.getElementsByClassName("reply-mes")[i + o*numb_of_replies].style.display = "none";
+    }
+}
+
+function see_replies(x) {
+    var com = ids_dict[x];
+
+
+    if(window.getComputedStyle(reply_div[com]).getPropertyValue("display") === "none") {
+        reply_div[com].style.display = "block";
+        document.getElementsByClassName("see-replies-font")[com].innerHTML = "Hide Replies^";
+    } else {
+        reply_div[com].style.display = "none";
+        document.getElementsByClassName("see-replies-font")[com].innerHTML = "See Replies";
+    }
+}
+function f() {
+    if (confirm('You have to login') === true) {
+        window.location = 'http://127.0.0.1:8000/accounts/login'
+    } }
+</script>
+
+<script src="/static/script/post_details.js"></script>
+{% endblock %}

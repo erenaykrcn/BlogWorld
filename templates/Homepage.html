@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="home_box" onmouseout="not_search()">
+    <div class="wall_box_inner">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/mount.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/home_wall.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/port.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/fuji.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/lap.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/abstract.jpg' %}">
+        <img class="mySlides img_wall w3-animate-right" src="{% static 'home_img/car.jpg' %}">
+    </div>
+    <div class="heading w3-tangerine"><h1 id="h_1" style="">
+        discover Yourself, discover BlogWorld</h1></div>
+</div>
+
+
+<div class="container1" id="nav_div" >
+            <nav class="navbar navbar-expand-lg navbar-custom" id="nav_div1">
+                <a class="navbar-brand nav-link-exp1" href="/">BlogWorld</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left: 2%;">
+                    <ul class="navbar-nav mr-auto" style="width: 70%">
+                        {% if not user.is_authenticated %}
+                        <li class="nav-item active" style="width: 20%">
+                            <a class="nav-link nav-link-exp" href="/accounts/login" style="color: rgba(56, 1, 69, 1)">Login<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown nav-link-exp" style="width: 23%" id="account_nav">
+                            <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle nav-link-exp" data-toggle="dropdown"
+                               href="#"  role="button" style="color: rgba(56, 1, 69, 1)" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+                                Account
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item active nav-link-exp" style="padding-left: .5vw;" id="home_nav">
+                            <a class="nav-link nav-link-exp" href="/" style="color: rgba(56, 1, 69, 1);
+                                "><b>Home</b><span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown nav-link-exp" id="posts_nav">
+                            <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle nav-link-exp" data-toggle="dropdown"
+                               href="#" id="navbarDropdownMenuLink" role="button" style="color: rgba(56, 1, 69, 1)" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+                                Posts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-link-exp" id="contact_nav">
+                            <a class="nav-link nav-link-exp" href="/about/" style="color: rgba(56, 1, 69, 1)">About</a>
+                        </li>
+                    </ul>
+                    <div style="display: inline-block; width: 100%">
+                        <form method="post" action="/searchit/"> {% csrf_token %}
+                            <div class="search-div">
+                                <input type="text" class="search-input" name="elem">
+                                <button class="search-button" onmouseover = "search()"><i class="fas fa-search icon-ext"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+    <p class="mobile_blogworld">BlogWorld</p>
+    <button class="openbtn" onclick="openNav()">☰</button>
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+
+      {% if user.is_authenticated %}
+      <a href="#" onclick="show_sub0()">Account <i class="fas fa-chevron-down"></i></a>
+        <div class="acc_col" id="acc_col0">
+            <a href="/accounts/profile/">See Profile</a>
+            <a href="/accounts/logout/">Log Out</a>
+        </div>
+      {%  else %}
+       <a href="/accounts/login/">Login</a>
+      {% endif %}
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="#" onclick="show_sub1()">Posts <i class="fas fa-chevron-down"></i></a>
+        <div class="acc_col" id="acc_col1">
+            <a href="/posts/">See Blogs</a>
+            <a href="/posts/create/">Post Blogs</a>
+        </div>
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
+    <div class="dropdown_myNav_wrapper" onmouseover="drop_nav()" onmouseout="reverse_nav()">
+        <div class="dropdown_myNav">
+            <div class="account_dd">
+                {% if user.is_authenticated %}
+                <div class="see_profile" ><button onclick="account_p()" style="background: transparent; border: none">See Profile</button></div>
+                <div class="logout"><button onclick="logout_a()" style="background: transparent; border: none">Logout</button></div>
+                {% endif %}
+            </div>
+
+            <div class="post_dd">
+                <div class="post1">
+                    <div class="see_blogs"><button onclick="seeblogs_p()" style="background: transparent; border: none">See Blogs</button></div>
+                    <div class="post_blogs"><button onclick="postblogs_p()" style="background: transparent; border: none">Post Blogs</button></div>
+                </div>
+                <div class="post2">
+                    <div class="dd_cat">Categories</div>
+                    <div class="cats_main">
+                        <div class="colm1">
+                            <a href="/posts/cat/world/" class="cats_link">World</a>
+                            <a href="/posts/cat/technology/" class="cats_link">Technology</a>
+                        </div>
+                        <div class="colm1">
+                            <a href="/posts/cat/design/" class="cats_link">Design</a>
+                            <a href="/posts/cat/culture/" class="cats_link">Culture</a>
+                        </div>
+                        <div class="colm1">
+                            <a href="/posts/cat/business/" class="cats_link">Business</a><br>
+                            <a href="/posts/cat/politics/" class="cats_link">Politics</a>
+                        </div>
+                        <div class="colm1">
+                            <a href="/posts/cat/science/" class="cats_link">Science</a>
+                            <a href="/posts/cat/opinion/" class="cats_link">Opinion</a>
+                        </div>
+                        <div class="colm1">
+                            <a href="/posts/cat/health/" class="cats_link">Health</a>
+                            <a href="/posts/cat/travel/" class="cats_link">Travel</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<hr>
+<br>
+
+<div class="aff_main">
+    <h3 class="aff_head">Explore, Discover, Craft and Post</h3>
+</div>
+
+<div class="category-selecter">
+    <h3 class="aff_head_ext">Browse through our Categories</h3>
+    <hr>
+    <div class="lis">
+        <div class="row_cat">
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat"><button class="cat_but" onmouseover="cat_mouse(0)" onmouseout="mouseout_cat(0)" id="world"
+                onclick="cat_click(0)">World</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat"><button class="cat_but" onmouseover="cat_mouse(1)" onmouseout="mouseout_cat(1)" onclick="cat_click(1)">Culture</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat"><button class="cat_but" onmouseover="cat_mouse(2)" onmouseout="mouseout_cat(2)" onclick="cat_click(2)">Technology</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat"><button class="cat_but" onmouseover="cat_mouse(3)" onmouseout="mouseout_cat(3)" onclick="cat_click(3)">Design</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat"><button class="cat_but" onmouseover="cat_mouse(4)" onmouseout="mouseout_cat(4)" onclick="cat_click(4)">Business</button></div></div>
+        </div>
+
+        <img src="{% static 'home_img/glocal.jpg' %}" alt="" class="w3-animate-bottom cat_img">
+        <img src="{% static 'home_img/statue.jpg' %}" alt="" class="w3-animate-bottom cat_img">
+        <img src="{% static 'home_img/code.jpg' %}" alt="" class="w3-animate-bottom cat_img">
+        <img src="{% static 'home_img/design.jpg' %}" alt="" class="w3-animate-bottom cat_img">
+        <img src="{% static 'home_img/business.jpg' %}" alt="" class="w3-animate-bottom cat_img">
+
+        <img src="{% static 'home_img/macc.jpg' %}" alt="" class="w3-animate-top cat_img">
+        <img src="{% static 'home_img/opinion.jpg' %}" alt="" class="w3-animate-top cat_img">
+        <img src="{% static 'home_img/science.jpg' %}" alt="" class="w3-animate-top cat_img">
+        <img src="{% static 'home_img/health.jpg' %}" alt="" class="w3-animate-top cat_img">
+        <img src="{% static 'home_img/travel.jpg' %}" alt="" class="w3-animate-top cat_img">
+
+        <a href="/posts/cat/world/" class="link_cat" style="margin-top: -10vw;" id="clink">See Our 'World' Category</a>
+        
+        <div class="row_cat">
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat1"><button class="cat_but" onmouseover="cat_mouse(5)" onmouseout="mouseout_cat(5)" onclick="cat_click(5)">Politics</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat1"><button class="cat_but" onmouseover="cat_mouse(6)" onmouseout="mouseout_cat(6)" onclick="cat_click(6)">Opinion</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat1"><button class="cat_but" onmouseover="cat_mouse(7)" onmouseout="mouseout_cat(7)" onclick="cat_click(7)">Science</button></div></div>
+            <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat1"><button class="cat_but" onmouseover="cat_mouse(8)" onmouseout="mouseout_cat(8)" onclick="cat_click(8)">Health</button></div></div>
+           <div class="w3-hover-shadow w3-center cat_button"><div class="inner_cat1"><button class="cat_but" onmouseover="cat_mouse(9)" onmouseout="mouseout_cat(9)" onclick="cat_click(9)">Travel</button></div></div>
+        </div>
+    </div>
+    <div class="glow1"></div>
+    <div class="glow2"></div>
+
+</div>
+
+<br><br><br><br>
+<div class="wrapper_slider">
+    <p class="aff_p">Take a look at our most popular posts</p>
+    <div class="slider-frame">
+        {% for post in posts %}
+        <div class="img-container">
+            <img src="{{post.thumb}}" class="pad1 w3-display-middle w3-animate-right">
+            <div class="w3-display-bottomleft w3-large w3-container w3-padding-16 stock">
+                 <a class="stock" href="https://discover-blogworld.herokuapp.com/posts/post/{{post.slug}}" id="a1">{{post.title}}</a>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="slide_icons"></div>
+        <button class="prev_slide" onclick="prev()"><</button>
+        <button class="next_slide" onclick="next()">></button>
+        <button class="see_d" onclick="see_desc()">See Description <i class="fas fa-chevron-down"></i></button>
+    </div>
+    {% for post in posts %}
+    <div class="w3-card-4 desc">
+        <h2 class="de1" id="de1">{{post.title}}</h2>
+        <div class="w3-container">
+            <p class="de" id="de">{{post.desc}} <a href="/posts/post/{{post.slug}}/" class="read_more">read more</a></p>
+        </div>
+        <button class="w3-button w3-block w3-dark-grey hide" onclick="hide_d()">Hide Description</button>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="{% static 'script/homepage.js' %}"></script>
+{% endblock %}
+

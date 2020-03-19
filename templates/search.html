@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<h1 style="text-align: center">Found Blogs</h1>
+<br>
+<br>
+<div class="container">
+    <h3 style="margin-left: 30px">Showing Results for: "{{fil}}"</h3>
+    <br>
+    <br>
+    {% if len == 0 %}
+        <p style="text-align: center; font-size: 25px"><b>No results found</b></p>
+    {% endif %}
+  <div class="row mb-2">
+        {% for post in posts %}
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static" style="width: 50%">
+                    <strong class="d-inline-block mb-2 text-primary">{{post.category.category}}</strong>
+                    <h3 class="mb-0">{{post.title}}</h3>
+                    <div class="mb-1 text-muted">Nov 12</div>
+                    <p class="card-text mb-auto">{{post.desc|linebreaks}}...</p>
+                    <a href="/posts/post/{{post.slug}}/" class="stretched-link" >Continue reading</a>
+                </div>
+                <div class="col" style="width: 50%">
+                    <div class="col-auto d-none d-lg-block" style="width: 50%; padding-top: 30px;">
+                        <img style="width: 200px; height: 250px; object-fit: contain; padding-right: 35px; float: left" src="{{post.thumb}}" alt="thumb">
+                    </div>
+                    <div style="width: 100%;padding-right: 10px">
+                        <p style="text-align: center"><i>By <a href="/posts/userposts/{{post.user}}/">{{post.user.username}}</a></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

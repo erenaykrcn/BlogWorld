@@ -1,0 +1,640 @@
+{% extends "base.html" %}
+
+{% block title %}{{object.id}}{% endblock %}
+{% load static %}
+{% block content %}
+
+
+<div class="hidden_nav">
+    <p class="hidden_nav_title">{{object.title}}</p>
+</div>
+
+<input type="hidden" id ="csrf" value="<%=csrfToken%>">
+
+<div class="post_details_home_box">
+    <img src="{{object.thumb}}" alt="s" class="post_details_pad">
+    <div class="post_details_white_pad"><h1
+                                            id="post_details_heading">
+        <b>{{object.title}}</b></h1></div>
+</div>
+
+<div class="author">
+
+    by <a href="/posts/userpage/{{object.user.username}}/">{{object.user.username}}</a>
+    <img src="{{object.user.member.prof}}" alt="prof" class="author_pad">
+</div>
+
+<div class="post_details_content">
+    <p class="post_details_content_p">{{object.content|safe}}</p>
+</div>
+
+<div class="c-heading-box">
+    <h2 class="c-heading-h2">COMMENTS</h2>
+</div>
+
+{% if more %}
+<button class="load-more" onclick="load_more()">Load More ^</button>
+{% endif %}
+
+
+{% if no_comments %}
+<p style=" text-align: center; font-family: Quicksand; margin-top: 5vw; margin-bottom: 5vw" id="no_c">
+    No Comments yet</p>
+{% endif %}
+
+<div id="loop_div">
+    {% for comment in comments %}
+    <div class="c-main w3-animate-left">
+        <div class="c-card">
+            <div class="c-card-in">
+                <div class="c-date">
+                    <div class="c-date-date">{{comment.date}}</div>
+                    {% if user.is_authenticated %}
+                    {% if user.id == comment.user.id %}
+                    <div class="c-date-delete" onclick="delete_comment('{{comment.id}}')"><button class="delete-but"><i class="fas fa-trash delete-ext"></i></button></div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="c-cont">{{comment.content|linebreaks}}</div>
+                <button class="see-replies-font" onclick="see_replies('{{comment.id}}')">See Replies</button>
+                <div class="c-menu">
+                    <button class="c-like" onclick="like('{{comment.id}}')"><i class="far fa-thumbs-up thumbsup-ext" style="color: white"></i><div class="like_numb">23</div>
+                    </button>
+                    <button class="c-reply" onclick="see_replies('{{comment.id}}')"><i class="fa fa-reply reply-ex" aria-hidden="true" style="color: white"></i>
+                    </button>
+                </div>
+
+                <div class="reply-div w3-animate-top">
+                    <div class="loop_reply">
+                    {% for reply in replies %}
+                    <div class="reply-mes">
+                        {% if user.is_authenticated %}
+                        {% if user.id == reply.user.id %}
+                        <button class="delete-but" onclick="delete_reply('{{reply.id}}')"><i class="fas fa-trash delete-ext"></i></button>
+                        {% endif %}
+                        {% endif %}
+                        <div class="reply-cont">{{reply.content|linebreaks}}</div>
+                        <img class="reply-pad" src="{{reply.user.member.prof}}">
+                    </div>
+                    {% endfor %}
+                    </div>
+                    <div class="send-reply">
+                        <textarea name="cont-reply" id="" cols="30" rows="5" class="ta-reply"></textarea>
+                        <button class="reply-but" type="button" onclick="send_reply('{{comment.id}}')">SEND</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="c-prof">
+            <img src="{{comment.user.member.prof}}" alt="" class="c-pad">
+            <div class="c-username"><b>{{comment.user.username}}</b></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div id="react_root"></div>
+
+
+
+
+
+<div class="c-send">
+    <textarea name="" cols="30" rows="10" class="ta-com" id="ta-com"></textarea>
+    <button class="c-send-but" onclick="add_comment()" id="send_c">SEND</button>
+</div>
+
+
+<script src="{% static 'script/react_index.js' %}"></script>
+<script src="{% static 'script/post_details.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+    var s_id = 0;
+    var c_main = document.getElementsByClassName("c-main");
+    var ids_dict = {{ ids|safe }};
+    var index_dict = {{ index|safe }};
+    var main_reply_dict = {{ main_reply_dict1|safe }};
+    var numb_of_replies, o;
+    numb_of_replies = Object.keys(main_reply_dict).length;
+    var values = [];
+    var noc = document.getElementById("no_c");
+    var load_it = 1;
+    var user_info1 = {{ user_info | safe }};
+    var post_idd = {{ post_id|safe }};
+    var all_ids = {{ all_ids1|safe }};
+    var deleted = 0;
+    var added = 0;
+    var last_id;
+    var r_messages = document.getElementsByClassName("reply-mes");
+    var replies_index_id = {{ replies_index_id|safe }} ;
+    var all_reply_ids = {{all_reply_ids|safe}} ;
+    var like_numb = document.getElementsByClassName("like_numb");
+    var likes_dict = {{ likes_dict|safe }} ;
+    var com_likes = {{ com_likes|safe }} ;
+
+
+
+    last_id = all_ids[parseInt(all_ids.length,10)-1];
+    lastr = all_reply_ids[parseInt(all_reply_ids.length,10)-1];
+
+    for (i=0;i<c_main.length;i++) {
+        c_main[i].id = index_dict[i.toString()];
+    }
+
+    for (i=0;i<c_main.length;i++) {
+        like_numb[i].innerHTML = likes_dict[index_dict[i.toString()]];
+        like_numb[i].id = "l" + c_main[i].id
+    }
+
+
+    for (o=0;o<c_main.length;o++) {
+        for (i=0;i<numb_of_replies;i++) {
+            if (main_reply_dict[i]===o) {
+                var ord = i + numb_of_replies*o;
+                r_messages[ord].id = replies_index_id[i];
+            }
+        }
+    }
+
+    for (i=0;i<c_main.length;i++) {
+        var comment_id = index_dict[i];
+        var like_text = document.getElementById("l" + comment_id);
+
+        if (com_likes[parseInt(comment_id)].includes(user_info1["user_id"])) {
+            like_text.style.color = "green";
+        }
+    }
+
+
+    if (c_main.length > 4) {
+        for (i = 0; i < c_main.length - 4; i++) {
+            c_main[i].style.display = "none";
+        }
+    }
+
+    function like(comment_id) {
+        var user_id = user_info1["user_id"];
+        var like = document.getElementById("l" + comment_id);
+
+        if (window.getComputedStyle(like).getPropertyValue("color") !== "rgb(0, 128, 0)") {
+            like.innerHTML = parseInt(like.innerHTML, 10) + 1;
+            like.style.color = "green";
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {} };
+            var params = "user_id=" + user_id + "&comment_id=" + comment_id;
+            xhttp.open("POST", "/like/", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.send(params);
+
+        } else {
+            like.innerHTML = parseInt(like.innerHTML, 10) - 1;
+            like.style.color = "white";
+
+            var xhttp1 = new XMLHttpRequest();
+            xhttp1.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {} };
+
+            var params1 = "user_id=" + user_id + "&comment_id=" + comment_id;
+
+            xhttp1.open("POST", "/unlike/", true);
+            xhttp1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp1.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp1.send(params1);
+        }
+
+    }
+
+
+
+
+    function load_more() {
+        var up_limit = c_main.length - load_it * 4;
+        var down_limit = up_limit - 4;
+        if (down_limit < 0) {
+            down_limit = 0;
+            document.getElementsByClassName("load-more")[0].style.display = "none";
+        }
+
+        for (i = down_limit; i < up_limit; i++) {
+            c_main[i].style.display = "block";
+        }
+
+        load_it += 1;
+    }
+
+
+    for (i = 0; i < numb_of_replies; i++) {
+        values.push(main_reply_dict[i]);
+    }
+
+    for (i = 0; i < c_main.length; i++) {
+        if (values.indexOf(i) === -1) {
+            document.getElementsByClassName("see-replies-font")[i].style.display = "none";
+        }
+    }
+
+    for (o = 0; o < c_main.length; o++) {
+        for (i = 0; i < numb_of_replies; i++) {
+            if (main_reply_dict[i] !== o)
+                document.getElementsByClassName("reply-mes")[i + o * numb_of_replies].style.display = "none";
+        }
+    }
+
+    function see_replies(x) {
+        var com = ids_dict[x];
+
+
+        if (window.getComputedStyle(reply_div[com]).getPropertyValue("display") === "none") {
+            reply_div[com].style.display = "block";
+            document.getElementsByClassName("see-replies-font")[com].innerHTML = "Hide Replies^";
+        } else {
+            reply_div[com].style.display = "none";
+            document.getElementsByClassName("see-replies-font")[com].innerHTML = "See Replies";
+        }
+    }
+
+    function see_replies_b(x) {
+        x = x.toString().slice(1);
+        x = parseInt(x, 10);
+        id_to = "rdiv" + x;
+        var div_to = document.getElementById(id_to);
+
+        if (window.getComputedStyle(div_to).getPropertyValue("display") === "none") {
+            div_to.style.display = "block";
+        } else {
+            div_to.style.display = "none";
+        }
+    }
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+
+    function add_comment() {
+
+        if (c_main.length === 0) {
+            noc.style.display = "none";
+        }
+
+
+        var cont = document.getElementById("ta-com").value;
+
+        var user_id = user_info1["user_id"];
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+            }
+        };
+        last_id += 1;
+        added += 1;
+        all_ids.shift(last_id);
+        var params = "content=" + cont + "&user_id=" + user_id + "&post_id=" + post_idd;
+        xhttp.open("POST", "/insert/", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(params);
+
+        var main = document.createElement("div");
+        main.className = "c-main w3-animate-left";
+        main.id = last_id;
+        document.getElementById("loop_div").appendChild(main);
+
+        var card = document.createElement("div");
+        card.className = "c-card";
+        main.appendChild(card);
+
+        var card_in = document.createElement("div");
+        card_in.className = "c-card-in";
+        card.appendChild(card_in);
+
+
+        var date = document.createElement("div");
+        date.className = "c-date";
+        card_in.appendChild(date);
+
+        var c_date_date = document.createElement("div");
+        c_date_date.className = "c-date-date";
+        c_date_date.innerText = "FEB-29 2020";
+        date.appendChild(c_date_date);
+
+        var c_delete = document.createElement("div");
+        c_delete.className = "c-date-delete";
+        date.appendChild(c_delete);
+
+
+        var d_button = document.createElement("button");
+        d_button.className = "delete-but";
+        d_button.onclick = function (ev) {
+            ps_delete_comment(main.id)
+        };
+        c_delete.appendChild(d_button);
+
+
+        var d_i = document.createElement("i");
+        d_i.className = "fas fa-trash delete-ext";
+        d_button.appendChild(d_i);
+
+        var conte = document.createElement("div");
+        conte.className = "c-cont";
+        conte.innerText = cont;
+        card_in.appendChild(conte);
+
+        var menu = document.createElement("div");
+        menu.className = "c-menu";
+        card_in.appendChild(menu);
+
+        var like = document.createElement("button");
+        like.className = "c-like";
+        like.onclick = function (ev) {
+            window.location.reload()
+        };
+        menu.appendChild(like);
+
+        var like_i = document.createElement("i");
+        like_i.className = "far fa-thumbs-up";
+        like_i.style.fontSize = "2vw";
+        like_i.style.color = "white";
+        like.appendChild(like_i);
+
+        var reply = document.createElement("button");
+        reply.className = "c-reply";
+        reply.id = "r" + s_id;
+        reply.onclick = function (ev) {
+            see_replies_b(reply.id)
+        };
+        menu.appendChild(reply);
+
+        var reply_i = document.createElement("i");
+        reply_i.className = "fa fa-reply";
+        reply_i.style.fontSize = "2vw";
+        reply_i.style.color = "white";
+        reply.appendChild(reply_i);
+
+
+        var reply_div = document.createElement("div");
+        reply_div.className = "reply-div w3-animate-top";
+        reply_div.id = "rdiv" + s_id;
+        card_in.appendChild(reply_div);
+
+        var blank_div = document.createElement("div");
+        blank_div.id = "b" + s_id;
+        reply_div.appendChild(blank_div);
+
+        var send_reply = document.createElement("div");
+        send_reply.className = "send-reply";
+        reply_div.appendChild(send_reply);
+
+        var ta = document.createElement("textarea");
+        ta.className = "ta-reply";
+        ta.rows = "5";
+        ta.cols = "30";
+        ta.id = "ta" + s_id;
+        send_reply.appendChild(ta);
+
+        var reply_but = document.createElement("button");
+        reply_but.type = "button";
+        reply_but.className = "reply-but";
+        reply_but.innerHTML = "SEND";
+        reply_but.onclick = function (ev) {
+            ps_send_reply(blank_div.id, main.id, ta.id)
+        };
+        send_reply.appendChild(reply_but);
+
+        var prof2 = document.createElement("div");
+        prof2.className = "c-prof";
+        main.appendChild(prof2);
+
+        var im = document.createElement("img");
+        im.className = "c-pad";
+        im.src = user_info1["prof"];
+        prof2.appendChild(im);
+
+        var us = document.createElement("div");
+        us.className = "c-username";
+        us.innerHTML = user_info1["username"];
+        prof2.appendChild(us);
+
+
+        window.scrollBy(0, 1);
+        s_id += 1;
+
+        document.getElementById("ta-com").value = " ";
+    }
+
+    var added_reply = 0;
+
+    function send_reply(x) {
+        lastr += 1;
+        var user_id = user_info1["user_id"];
+        var ord = ids_dict[x];
+        var comment_id = x;
+
+        var reply_mes = document.createElement("div");
+        reply_mes.className = "reply-mes";
+        reply_mes.id = "rm" + added_reply;
+        added_reply += 1;
+        document.getElementsByClassName("loop_reply")[ord].appendChild(reply_mes);
+
+        var del_r_but = document.createElement("button");
+        del_r_but.className = "delete-but";
+        del_r_but.onclick = function (ev) { ps_delete_reply() };
+        reply_mes.appendChild(del_r_but);
+
+        var del_r_i = document.createElement("i");
+        del_r_i.className = "fas fa-trash delete-ext";
+        del_r_but.appendChild(del_r_i);
+
+        var reply_cont = document.createElement("div");
+        reply_cont.className = "reply-cont";
+        var con = document.getElementsByClassName("ta-reply")[ord].value;
+        reply_cont.innerText = con;
+        reply_mes.appendChild(reply_cont);
+
+        var reply_pad = document.createElement("img");
+        reply_pad.src = user_info1["prof"];
+        reply_pad.className = "reply-pad";
+        reply_mes.appendChild(reply_pad);
+
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+            }
+          };
+        var params = "content=" + con + "&user_id=" + user_id + "&comment_id=" + comment_id;
+        xhttp.open("POST", "/reply/", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(params);
+        document.getElementsByClassName("ta-reply")[ord].value = " "
+    }
+
+    function ps_send_reply(reply_id, comment_id, ta_id) {
+        comment_id = parseInt(comment_id, 10);
+        var blank_div = document.getElementById(reply_id);
+        var ta = document.getElementById(ta_id);
+        var user_id = user_info1["user_id"];
+
+        var reply_mes = document.createElement("div");
+        reply_mes.className = "reply-mes";
+        blank_div.appendChild(reply_mes);
+
+        var del_r_but = document.createElement("button");
+        del_r_but.className = "delete-but";
+        reply_mes.appendChild(del_r_but);
+
+        var del_r_i = document.createElement("i");
+        del_r_i.className = "fas fa-trash delete-ext";
+        del_r_but.appendChild(del_r_i);
+
+        var reply_cont = document.createElement("div");
+        reply_cont.className = "reply-cont";
+
+        var con = ta.value;
+        reply_cont.innerText = con;
+        reply_mes.appendChild(reply_cont);
+
+        var reply_pad = document.createElement("img");
+        reply_pad.src = user_info1["prof"];
+        reply_pad.className = "reply-pad";
+        reply_mes.appendChild(reply_pad);
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+            }
+          };
+        var params = "content=" + con + "&user_id=" + user_id + "&comment_id=" + comment_id;
+        xhttp.open("POST", "/reply/", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(params);
+
+
+        ta.value = " ";
+    }
+
+
+    function delete_comment(x) {
+        var com_id = parseInt(x,10);
+        var comment = document.getElementById(x);
+
+        if (confirm("Are you sure to delete this comment?") === true) {
+
+            comment.className = "removed";
+
+            var delete_timeout = window.setInterval(function () {
+                comment.className = "after-timeout";
+                window.clearInterval(delete_timeout);
+            }, 800);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    deleted += 1;
+                }
+              };
+            var params = "comment_id=" + com_id;
+            xhttp.open("POST", "/delete/", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.send(params);
+
+            if (com_id == last_id) {
+                all_ids.pop();
+                last_id = all_ids[parseInt(all_ids.length, 10)-1];
+            } else {
+                all_ids.splice(all_ids.findIndex(com_id), all_ids.findIndex(com_id)+1);
+                alert(all_ids);
+            }
+        }
+    }
+
+    function ps_delete_comment(main_id) {
+        var comment = document.getElementById(main_id);
+        var comment_id = parseInt(main_id, 10);
+
+        if (confirm("Are you sure to delete this comment?") === true) {
+
+            comment.className = "removed";
+
+            var delete_timeout = window.setInterval(function () {
+                comment.className = "after-timeout";
+                window.clearInterval(delete_timeout);
+            }, 800);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                }
+              };
+            var params = "comment_id=" + comment_id;
+            xhttp.open("POST", "/delete/", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.send(params);
+
+            if (comment_id === last_id) {
+                last_id -= 1;
+            } else {
+
+            }
+        }
+    }
+
+    function delete_reply(reply_id) {
+        var reply = document.getElementById(reply_id);
+
+        if (confirm("Are you sure to delete this reply?") === true) {
+
+            reply.className = "removed";
+
+            var delete_timeout = window.setInterval(function () {
+                reply.className = "after-timeout";
+                window.clearInterval(delete_timeout);
+            }, 800);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                }
+              };
+            var params = "reply_id=" + reply_id;
+            xhttp.open("POST", "/delete_rep/", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.send(params);
+
+        }
+    }
+
+    function ps_delete_reply() {
+        window.location.reload();
+    }
+
+</script>
+
+
+{% endblock %}
